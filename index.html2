@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tool AI Dự Đoán Tài/Xỉu MD5</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    input, button {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin: 10px;
+    }
+    button {
+      background: #00c9ff;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #92fe9d;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <h1>✨ Tool AI Dự Đoán Tài/Xỉu Từ MD5</h1>
+  <p>Nhập mã MD5 dự đoán kết quả:</p>
+  <input type="text" id="md5Input" placeholder="Nhập MD5..." />
+  <button onclick="predict()">✨ Dự đoán ngay</button>
+  <div class="result" id="output"></div>  <script>
+    function predict() {
+      const md5 = document.getElementById("md5Input").value.trim().toLowerCase();
+      if (md5.length < 32) {
+        document.getElementById("output").innerText = "MD5 không hợp lệ!";
+        return;
+      }
+
+      // Phân tích AI ảo dựa theo pattern ký tự cuối, giữa, vị trí lặp lại
+      const patterns = [
+        md5[md5.length - 1], // cuối
+        md5[md5.length - 2],
+        md5[md5.length - 3],
+        md5[15], // vị trí giữa
+        md5[5]
+      ];
+
+      let score = 0;
+      const taiChars = "abcdef789";
+      const xiuChars = "0123456";
+
+      patterns.forEach(char => {
+        if (taiChars.includes(char)) score++;
+        if (xiuChars.includes(char)) score--;
+      });
+
+      let result = "";
+      if (score > 0) result = "☑ TÀI ✨ (AI tin rằng Tài cao)";
+      else if (score < 0) result = "☒ XỊU ❌ (AI nghi Xỉu cao)";
+      else result = "❓ KHÔNG RÕ (Cân bằng)";
+
+      document.getElementById("output").innerText = `Kết quả: ${result}`;
+    }
+  </script></body>
+</html>
